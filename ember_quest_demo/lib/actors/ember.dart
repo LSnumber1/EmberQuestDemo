@@ -6,7 +6,7 @@ import 'package:flame/components.dart';
 class EmberPlayer extends SpriteAnimationComponent
     with HasGameRef<EmberQuestGame> {
   EmberPlayer({required super.position})
-      : super(size: Vector2.all(64), anchor: Anchor.center);
+      : super(size: Vector2.all(64), anchor: Anchor.bottomLeft);
 
   @override
   // TODO: implement debugMode
