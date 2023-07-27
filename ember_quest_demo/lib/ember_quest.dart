@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:ember_quest_demo/actors/ember.dart';
 import 'package:ember_quest_demo/managers/segment_manager.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
 
@@ -11,7 +12,7 @@ import 'objects/ground_block.dart';
 import 'objects/platform_block.dart';
 import 'objects/star.dart';
 
-class EmberQuestGame extends FlameGame {
+class EmberQuestGame extends FlameGame with HasKeyboardHandlerComponents, HasCollisionDetection {
   EmberQuestGame();
 
   late EmberPlayer _ember;
