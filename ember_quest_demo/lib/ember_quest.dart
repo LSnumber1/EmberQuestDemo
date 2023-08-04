@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:ember_quest_demo/actors/ember.dart';
 import 'package:ember_quest_demo/managers/segment_manager.dart';
+import 'package:ember_quest_demo/overlays/hud.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -12,8 +13,12 @@ import 'objects/ground_block.dart';
 import 'objects/platform_block.dart';
 import 'objects/star.dart';
 
-class EmberQuestGame extends FlameGame with HasKeyboardHandlerComponents, HasCollisionDetection {
+class EmberQuestGame extends FlameGame
+    with HasKeyboardHandlerComponents, HasCollisionDetection {
   EmberQuestGame();
+
+  int startsCollected = 0;
+  int health = 3;
 
   late EmberPlayer _ember;
   double objectSpeed = 0.0;
@@ -22,6 +27,8 @@ class EmberQuestGame extends FlameGame with HasKeyboardHandlerComponents, HasCol
 
   late double lastBlockXposition = 0.0;
   late UniqueKey lastBlockKey;
+
+  int starsCollected = 0;
 
   @override
   FutureOr<void> onLoad() async {
@@ -52,6 +59,8 @@ class EmberQuestGame extends FlameGame with HasKeyboardHandlerComponents, HasCol
 
     _ember = EmberPlayer(position: Vector2(128, canvasSize.y - 70));
     world.add(_ember);
+
+    cameraComponent.viewport.add(Hub());
   }
 
   void loadGameSegments(int segmentIndex, double xPositionOffset) {
