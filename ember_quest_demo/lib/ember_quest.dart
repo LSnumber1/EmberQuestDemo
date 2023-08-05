@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:ember_quest_demo/actors/ember.dart';
 import 'package:ember_quest_demo/managers/segment_manager.dart';
@@ -41,15 +42,20 @@ class EmberQuestGame extends FlameGame
       'star.png',
       'water_enemy.png',
     ]);
-
+    print('onLoad');
     cameraComponent = CameraComponent(world: world);
     cameraComponent.viewfinder.anchor = Anchor.topLeft;
     addAll([cameraComponent, world]);
 
-    initializeGame();
+    initializeGame(true);
   }
 
-  void initializeGame() {
+  @override
+  Color backgroundColor() {
+    return const Color.fromARGB(255, 173, 223, 247);
+  }
+
+  void initializeGame(bool loadHub) {
     final segmentsToLoad = (size.x / 640).ceil();
     segmentsToLoad.clamp(0, segments.length);
 
@@ -59,8 +65,9 @@ class EmberQuestGame extends FlameGame
 
     _ember = EmberPlayer(position: Vector2(128, canvasSize.y - 70));
     world.add(_ember);
-
-    cameraComponent.viewport.add(Hub());
+    if (loadHub) {
+      cameraComponent.viewport.add(Hub());
+    }
   }
 
   void loadGameSegments(int segmentIndex, double xPositionOffset) {
@@ -86,5 +93,20 @@ class EmberQuestGame extends FlameGame
         default:
       }
     }
+  }
+
+  @override
+  void update(double dt) {
+    if (health <= 0) {
+      overlays.add('GameOver');
+      print('GameOver');
+    }
+    super.update(dt);
+  }
+
+  void reset() {
+    starsCollected = 0;
+    health = 3;
+    initializeGame(false);
   }
 }

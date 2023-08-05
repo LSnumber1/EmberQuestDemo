@@ -87,6 +87,15 @@ class EmberPlayer extends SpriteAnimationComponent
     velocity.y = velocity.y.clamp(-jumpSpeed, terminalVelocity);
 
     position += velocity * dt;
+
+    if (position.y > game.size.y + size.y) {
+      game.health = 0;
+    }
+
+    if (game.health == 0) {
+      removeFromParent();
+    }
+
     if (horizontalDirection < 0 && scale.x > 0) {
       flipHorizontally();
     } else if (horizontalDirection > 0 && scale.x < 0) {
